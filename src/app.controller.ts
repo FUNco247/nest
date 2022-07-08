@@ -10,6 +10,8 @@ import {
   Query,
 } from '@nestjs/common';
 import { AppService } from './app.service';
+import { CreateUserDto } from './dto/crate-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/app.user';
 
 @Controller('user')
@@ -22,22 +24,25 @@ export class AppController {
   }
 
   @Post('/join')
-  createUser(@Body() newUser): void {
+  createUser(@Body() newUser: CreateUserDto): void {
     return this, this.appService.create(newUser);
   }
 
   @Get('/:id')
-  getOneUser(@Param('id') userId: string): User {
-    return this.appService.getOne(+userId);
+  getOneUser(@Param('id') userId: number): User {
+    return this.appService.getOne(userId);
   }
 
   @Patch('/patch/:id')
-  patchUser(@Param('id') userId: string, @Body() updatedUser): void {
-    return this.appService.update(+userId, updatedUser);
+  patchUser(
+    @Param('id') userId: number,
+    @Body() updatedUser: UpdateUserDto,
+  ): void {
+    return this.appService.update(userId, updatedUser);
   }
 
   @Delete('/delete/:id')
-  deleteUser(@Param('id') userId: string): boolean {
-    return this.appService.deleteOne(+userId);
+  deleteUser(@Param('id') userId: number): boolean {
+    return this.appService.deleteOne(userId);
   }
 }

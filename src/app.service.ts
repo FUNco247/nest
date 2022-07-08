@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { NotFoundError } from 'rxjs';
+import { CreateUserDto } from './dto/crate-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/app.user';
 
 @Injectable()
@@ -23,14 +24,14 @@ export class AppService {
     return true;
   }
 
-  create(newUserData: User): void {
+  create(newUserData: CreateUserDto): void {
     this.users.push({
       id: this.users.length + 1,
       ...newUserData,
     });
   }
 
-  update(id: number, newData): void {
+  update(id: number, newData: UpdateUserDto): void {
     const targetUser = this.getOne(id);
     this.deleteOne(id);
     this.users.push({
